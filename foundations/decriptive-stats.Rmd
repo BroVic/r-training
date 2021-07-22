@@ -1,0 +1,618 @@
+---
+title: "Descriptive Statistics in R"
+author: "Victor A. Ordu"
+date: '2021-07-16'
+output:
+  ioslides_presentation: default
+  beamer_presentation: default
+---
+
+# Introduction
+
+------------------------------------------------------------------------
+
+-   Most of the functions related to pure statistics can be found in the *base* and *stats* package
+-   They are always pre-loaded by default in every R session
+
+```{r}
+search()
+```
+
+# Summarisation of Data
+
+## Summation
+
+-   Numerical data
+
+The sum:
+
+$$Sum(X) = \sum_{i=1}^{N}x_i$$ where $x_i$ is a single element in a numeric vector and $N$ is the number of elements in that vector.
+
+We add up the values with `sum()`:
+
+```{r}
+x <- 1:100
+sum(x)
+```
+
+------------------------------------------------------------------------
+
+-   Categorical data
+
+Here we do **counting** with `length()`
+
+How many letters are there in the English alphabet?
+
+```{r}
+length(LETTERS)
+```
+
+## Scaling
+
+-   Addition/subtraction
+-   Multiplication and/or division.
+-   When you apply a constant number, it computes on every element of the vector
+
+```{r, results='markup'}
+mix <- c(5, 0, 28, -5, 29, 77, 10, 57, 28, 88, 298)
+
+mix + 5
+mix * 2
+mix / 3
+mix %% 2
+```
+
+## Maxima and minima
+
+-   Get the highest or lowest value in a collection.
+-   Functions: `max()` and `min()`
+
+```{r}
+max(mix)
+min(mix)
+```
+
+## Summarization
+
+-   Tukey's five-number summary: minimum, maximum, mean, 1st quartile, 3rd quartile
+-   At a glance, gives you an idea of central statistic, dispersion and extremes of the data.
+
+```{r}
+fivenum(mix)
+```
+
+## Sorting
+
+Create an ordered array of values
+
+```{r}
+
+sort(mix)
+```
+
+In descending order
+
+```{r}
+sort(mix, decreasing = TRUE)
+```
+
+## Ranking
+
+Get the rank of values within a collection
+
+```{r}
+order(mix)
+```
+
+Compare with original vector for clarity:
+
+```{r}
+comp <- data.frame(original = mix, ordered = order(mix))
+comp
+```
+
+# Measures of Central Tendency
+
+## Arithmetic mean
+
+Arithmetic mean, of a population $\mu$ is defined by the equation $$\mu = \frac{\sum_{i=1}^Nx_i}{N}$$ - Computed with the function `mean()`
+
+```{r}
+mean(mix)
+```
+
+## Median
+
+The median, the *middle* value in an ordered array, $X$, with $N$ numbers can be described by the formula $$median(X) = x_{(N+1)/2}$$ and when considering even numbered sets, we have the formula $$median(X)=\frac{x_{N/2}+x_{(N/2)-1}}{2}$$ ---
+
+-   Computed with the function `median()`
+
+```{r}
+median(mix)
+```
+
+## The Difference beteen mean and median
+
+```{r}
+# Add an outlier to the vector 'mix'
+mix[length(mix) + 1] <- 1000
+mix
+mean(mix)
+median(mix)
+```
+
+## Mode
+
+There is no function per se in R for computing the mode, but developing a custom function for this purpose is trivial and would be done on a case-by-case basis.
+
+# Measures of Dispersion
+
+------------------------------------------------------------------------
+
+When you want to assess the variability in a set of data or a given variable
+
+## Range
+
+The range, $R$, is the difference between the lowest value, $x_S$ and the largest value, $x_L$, i.e. $$R=x_L-x_S$$ In R, the function `range` returns both values as a 2-element numeric vector.
+
+```{r}
+range(mix)
+```
+
+## Interquartile Range
+
+-   Is the range between the first and the third quartile
+-   A measure of the "middle fifty percent" of a dataset
+-   It is the range between the 75th and 25th percentile
+
+$$IQR=Q_3-Q_1$$
+
+```{r}
+IQR(mix)
+```
+
+------------------------------------------------------------------------
+
+In the box-and-whiskers plot, the "box" displays the $IQR$.
+
+```{r}
+boxplot(mix)
+```
+
+## Variance
+
+Dispersion around the mean, with the difference squared to create absolute values.
+
+$$Var(X)=\frac{\sum_{i=1}^{N}(x_i-\mu)^2}{N}$$
+
+```{r}
+var(mix)
+```
+
+## Standard Deviation
+
+This is essentially (elementarily) the square root of the variance
+
+$$s.d.(X)=\sqrt{\frac{\sum_{i=1}^{N}(x_i-{\bar{x}})^2}{N}}$$
+
+```{r}
+sd(mix)
+```
+
+## Coefficient of variation
+
+Used to measure the variation between 2 different but related datasets It is the ratio between the standard deviation and the mean, expressed as a percentage.
+
+$$C.V.=\frac{s.d.}{\bar{x}}(100)$$ \# Grouping of Data
+
+## Numerical vs. Categorical Data
+
+-   With numerical data we create intervals first, coverting them to discrete categories.
+-   Then we create a frequency tabulation
+
+```{r}
+cut(mix, 3)  # create 3 groups using defaults
+```
+
+------------------------------------------------------------------------
+
+```{r}
+cut(mix, c(-5, 0, 100, 1000))  # Note missing value
+```
+
+\`
+
+------------------------------------------------------------------------
+
+```{r}
+cut(mix, c(-4, 0, 100, 1000), include.lowest = TRUE)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+cut(mix, breaks = c(min(mix), median(mix), max(mix)))
+```
+
+## Frequency Distribution
+
+-   For categorical/discrete data
+-   In R, we use the `table()` function.
+
+```{r}
+table(esoph$agegp)
+```
+
+## Cumulative Frequency Distribution
+
+```{r}
+cumsum(mix)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+# Compare with original
+cumfrq <- data.frame(original = mix, cum.freq = cumsum(mix))
+cumfrq
+```
+
+Something is wrong with this arrangement. Can you spot it?
+
+# Some important characteristics of vectors
+
+------------------------------------------------------------------------
+
+-   We need to discuss some important behaviours of vectors
+-   They have practical implications when you are carrying out analyses.
+
+## Vectorization
+
+-   A process whereby an operation carried out affects every element of a vector.
+-   First let's create a vector with random whole numbers
+
+```{r}
+set.seed(134)
+myvalues <- sample(1:7, size = 10, replace = TRUE)
+myvalues
+```
+
+## Arithmetic
+
+```{r}
+myvalues + 1
+```
+
+------------------------------------------------------------------------
+
+```{r}
+myvalues * 5
+```
+
+------------------------------------------------------------------------
+
+```{r}
+myvalues < 3
+```
+
+## Vectorized Logical 'AND'
+
+```{r}
+set.seed(54)
+newvalues <- sample(myvalues, size = length(myvalues), replace = TRUE)
+identical(newvalues, myvalues)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+myvalues < newvalues
+```
+
+```{r}
+myvalues > 2 && myvalues < 5
+```
+
+------------------------------------------------------------------------
+
+But with "Vectorized" `&` we do this check element by element.
+
+```{r}
+myvalues > 2 & myvalues < 5
+```
+
+------------------------------------------------------------------------
+
+-   `&&` and `||` are best for logical single outcome computations e.g. `is.character(x) && is.atomic(x)`
+
+-   `&` and `|` are used to compare elements one by one along the length of two vectors. e.g. `is.na(x) | duplicated(x)`
+
+## Recycling
+
+When 2 vectors are used together as operands in a computation e.g. $A + B$, if `length(A) != length(B)`, the shorter one will be recycled until the computation on the longer vector is completed, without prejudice to which element of the shorter is used last.
+
+------------------------------------------------------------------------
+
+Thus,
+
+```{r}
+x <- 5
+y <- 1:8
+x * y    # Recycling of lengh 1L akin to vectorization
+```
+
+------------------------------------------------------------------------
+
+```{r}
+x <- c(5, 10)
+x * y
+```
+
+------------------------------------------------------------------------
+
+Display side-by-side
+
+```{r}
+data.frame(y, prod = x * y)
+```
+
+------------------------------------------------------------------------
+
+Demonstrate abrupt stop to recycling
+
+```{r, warning=FALSE}
+x[3] <- 15L
+x * y
+```
+
+------------------------------------------------------------------------
+
+Viewed in a data frame...
+
+```{r, echo=FALSE, warning=FALSE}
+data.frame(x = rep_len(x, 8), y, `x times y` = x * y)
+```
+
+## Missing values
+
+Most computations, such as the ones above will return `NA` if a missing value is present.
+
+```{r}
+mix[7] <- NA
+mix
+
+sum(mix)
+```
+
+------------------------------------------------------------------------
+
+To fix this, remove `NA` from the computation. See the `sum`'s signature:
+
+```{r}
+args(sum)
+```
+
+Where `...` received objects to be summed up and `na.rm` tunes our ability to discount `NA` from the computation.
+
+------------------------------------------------------------------------
+
+Thus,
+
+```{r}
+sum(mix, na.rm = TRUE)
+```
+
+------------------------------------------------------------------------
+
+Many other functions used for statistical computations have arguments for dealing with `NA`. Whether you leave or remove depends entirely on the circumstance at any given time.
+
+```{r}
+mean(mix)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+mean(mix, na.rm = TRUE)
+```
+
+------------------------------------------------------------------------
+
+The real point is to always glance at the help files e.g. `?mean`. The funcion `args()` used earlier also provides a way to quickly look at a function signature, but it is not always guaranteed to be informative, especially with generic functions.
+
+```{r, eval=FALSE}
+args(plot)
+
+?plot
+```
+
+## Peculiarities of Logical Vectors
+
+-   Recall: `0` evaluates to `TRUE` and any other number evaluates to `FALSE`.
+-   Thus:
+
+```{r}
+as.logical(0)
+as.logical(45)
+as.logical(-66)
+as.logical(0.004)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+as.logical(Inf)
+as.logical(-Inf)
+```
+
+Missing values are logical vectors but do not return logical values.
+
+```{r}
+is.logical(NA)
+typeof(NA)
+as.logical(NA)
+```
+
+## Summarising Logical Vectors
+
+-   Technically, within a vector, `TRUE` will be taken as `1`, while `FALSE` is returned as `0`.
+-   This is very useful for summarising data
+
+```{r}
+set.seed(45)
+logi <- sample(c(T, F), 1e6, replace = TRUE, prob = c(.3, .7))
+sum(logi)
+```
+
+This compares well when we use 1s and 0s instead:
+
+```{r}
+set.seed(45)
+numi <- sample(c(1, 0), 1e6, replace = TRUE, prob = c(.3, .7))
+sum(numi)
+```
+
+------------------------------------------------------------------------
+
+-   In summarising logical vectors, we can easily use the same construct to compute the mean.
+
+-   But first, a digression:
+
+    -   To proceed, we have retype or copy-paste, violating the [**DRY principle**](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
+
+    -   Write a function that generates a binary vector of length $10^6$
+
+    -   Perform some input validation to ensure that only a vector of length `2L` is used
+
+    -   Check that the input satisfies the following conditions:
+
+        -   If logical, MUST contain only `TRUE` and `FALSE`.
+        -   If numeric, MUST be integers `0L` and `1L`.
+        -   If strings, MUST be unique.
+
+------------------------------------------------------------------------
+
+We can easily calculate proportions i.e. percentages by calling `mean` on logical vectors.
+
+```{r}
+set.seed(45)
+logi <- sample(c(T, F), 1e6, replace = TRUE, prob = c(.3, .7))
+mean(logi)
+```
+
+## Logical subsetting
+
+-   A logical value of `TRUE` will select an element in a vector, while `FALSE` will drop it.
+-   Thus
+
+```{r}
+below30 <- mix < 30
+below30
+```
+
+We can now subset this `mix` to get out the values that satisfy this condition:
+
+```{r}
+mix[below30]
+```
+
+The rules of recycling still apply here
+
+```{r}
+recyc <- mix[c(T, F, T)]
+recyc
+```
+
+For a better view
+
+```{r}
+index <- rep_len(c(T, F, T), length(mix))
+data.frame(mix = mix, index = index)
+```
+
+Using the function `which` one can discover the indices of a logical vector that evaluate to `TRUE`
+
+```{r}
+dat <- data.frame(
+  name = c("Tom", "Dick", "Harry", "Sally"),
+  sex = c("M", "M", "M", "F"),
+  age = c(45, 29, 12, 23)
+)
+```
+
+How many are older than 25?
+
+```{r}
+`25 plus` <- dat$age > 25
+`25 plus`
+```
+
+But, **who** is older than 25?
+
+```{r}
+which(dat$age > 25)
+```
+
+Putting it all together we can write code in various ways to extract information from a data frame:
+
+-   Who is older than 25?
+
+```{r}
+i <- which(dat$age > 25)
+dat$name[i]
+```
+
+-   What is the gender of those older than 25?
+
+```{r}
+dat$sex[i]
+```
+
+-   What are the records of those older than 25?
+
+```{r}
+dat[i, ]
+```
+
+Note that creating the variable `i` is an optional step, depending on the coding situation and the choice on what to do depends on the balance between readability vs. convenience. The following gives the same result
+
+```{r}
+# Name of subjects older than 25
+dat$name[dat$age > 25]
+```
+
+------------------------------------------------------------------------
+
+Finally, we can use multiple comparisons in extracting data from a table. We will use the `esoph` dataset
+
+Show records of women in the data that are younger than 25:
+
+```{r}
+dat[dat$age < 25 & dat$sex == "F", ]
+```
+
+# Homework
+
+## Assignment 1
+
+We said that the Coefficient of Variation "is the ratio between the standard deviation and the mean, expressed as a percentage".
+
+**Task**: Create this function.
+
+------------------------------------------------------------------------
+
+**Your function should**:
+
+-   Receive only a vector of numbers as input and throw an error that says "Illegal input" when this is violated.
+
+-   Should work only for vectors with at least 2 elements and at the most 100 elements. If any of these are violated, throw an error that says "The vector is either too short or too long".
+
+-   In the script write first the definition of your function and then a few test cases below.
+
+## Assignment 2
+
+Write R code to explore and describe the `esoph` dataset as follows: - Number of rows and columns - Total number of controls and total number of cases or esophageal cancer. - Display the categories of the age groups (Tip: Use the function `levels`) - Average number of cases aged 35 to 44 years. - How many of the aforementioned both used tobacco and drank alcohol?
+
+## Submission
+
+Post your code as a GitHub Gist. Then copy its link and post in the \*training\* on Slack.

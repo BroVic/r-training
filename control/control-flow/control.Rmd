@@ -1,0 +1,62 @@
+---
+title: "Control Flow in R"
+author: "Victor Ordu"
+date: "01/07/2021"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Control flow
+### Conditionals
+
+- `if`, `else if`, `else`: These can be used to instruct a particular part of the code to be run or not run.
+
+- For example take this instruction:  
+*If `x` is greater than `y`, print "Yes o!", otherwise print "No way!"*
+
+---
+
+- Using R code, it would look like this:
+
+``` {r control_flow, eval = FALSE}
+# Note that x is 8 and y is 2
+if (x > y) {
+  "Yes o!"
+} else {
+  "No way!"
+}
+```
+
+*When the expression in `if()` is `TRUE`, the code in that part is executed. If `FALSE`, the `else` part is executed*.    
+
+**What is the result?**
+
+---
+
+## Loops
+
+![](www/img/loop.webp)
+
+Loops allow us to run a code block over and over again.
+
+For a simple explanation of loops, read **[this article](https://adventureswithr.wordpress.com/2020/08/11/r-loops/)**.
+
+## Read data from a file
+_Task: Read a table from a CSV file called **mockdata.csv**_.
+
+![](www/img/mockdata.png)
+
+---
+
+Use `read.csv()` function to read the file into R and at the same time create an object called `mydata`.
+
+```{r read_csv}
+mydata <- read.csv("mockdata.csv")
+
+# Print out the data inside R
+mydata
+```
+
