@@ -96,6 +96,12 @@ In descending order
 sort(mix, decreasing = TRUE)
 ```
 
+You can sort character vectors as well
+
+```{r}
+sort(c("apple", "grapple", "tuple", "hubble", "ample"))
+```
+
 ## Ranking
 
 Get the rank of values within a collection
@@ -131,7 +137,7 @@ The median, the *middle* value in an ordered array, $X$, with $N$ numbers can be
 median(mix)
 ```
 
-## The Difference beteen mean and median
+## The Difference between mean and median
 
 ```{r}
 # Add an outlier to the vector 'mix'
@@ -199,7 +205,7 @@ $$s.d.(X)=\sqrt{\frac{\sum_{i=1}^{N}(x_i-{\bar{x}})^2}{N}}$$
 sd(mix)
 ```
 
-## Coefficient of variation
+## Coefficient of Variation
 
 Used to measure the variation between 2 different but related datasets It is the ratio between the standard deviation and the mean, expressed as a percentage.
 
