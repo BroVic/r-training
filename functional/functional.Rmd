@@ -77,11 +77,11 @@ Functional programming has its roots in mathematics and is thus very suitable fo
 
 ### First-class functions
 
-R characteristically has what we know as *first-class functions* such that they can be created, used and managed in the same manner asvariables. This means that functions in R can be:
+R characteristically has what we know as *first-class functions* such that they can be created, used and managed in the same manner as variables. This means that functions in R can be:
 
 -   Bound to names
 -   Passed as arguments
--   Combined/Collected in containers i.e. lists
+-   Combined/collected in containers i.e. lists
 -   Returned from functions i.e. factories
 
 In R, **functions are objects**! The function `function()` is actually a constructor for a type of function object known as a closure.
@@ -155,7 +155,7 @@ To exemplify this function, we will create a 1000 X 10 matrix i.e. 10,000 data p
 
 ```{r}
 # One way to create a matrix that highlights it's internal structure as an atomic vector
-x <- sample(c(1:10, NA_integer_), size = 10000, rep = TRUE)
+x <- sample(c(1:10, NA_integer_), size = 10000, replace = TRUE)
 dim(x) <- c(1000, 10)
 colnames(x) <- LETTERS[seq_len(ncol(x))]
 head(x, n = 10)
@@ -213,16 +213,17 @@ args(lapply)
 This function always returns a list and this means it can accommodate a variety of objects as output. This why it is quite popular in data analysis. For example, we can apply a modelling function on different datasets and very easily collect all the outputs in one data structure. However, because it always returns a list it can be difficult to manage when we want simpler results e.g. an atomic vector. Using `lapply` to compute the median of our matrix `x` won't make sense
 
 ```{r}
-head(lapply(x, median), 20)
+length(lapply(x, median))
 ```
 
 But if we turn it into a data frame, it can be donw.
 
 ```{r}
+x
 lapply(as.data.frame(x), median, na.rm = TRUE)
 ```
 
-We have a similar result to `apply` except that the elements are in a list. To change this to a vector, you can use the function `unlist`. Note that once we converted the matrix into a data frame, each column was taken as an element and the function `median` was applied to it. The `names` of the list confirm this.
+We have a similar result to `apply` except that the elements are in a list. To change this to a vector, you can use the function `unlist`. Note that once we converted the matrix into a data frame, each column was taken as an element and the function `median` was applied to it. The `names` of the list confirms this.
 
 ### `sapply`
 
@@ -242,7 +243,7 @@ we can see the default values for `simplify` and `USE.NAMES` and how they impact
 
 ### `tapply`
 
-This is another useful member of this group of functions. It is extremely useful in applying a function across a ragged array, which is a collection of grouped items that may not necessarily be of the same length. A ragged array in R is just a list with vectors of the same type that have different lengths. This can be pictured as groups and the groupig variable would be a factor (or something coercible into one). Thus
+This is another useful member of this group of functions. It is extremely useful in applying a function across a ragged array, which is a collection of grouped items that may not necessarily be of the same length. A ragged array in R is just a list with vectors of the same type that have different lengths. This can be pictured as groups and the grouping variable would be a factor (or something coercible into one). Thus
 
 ```{r}
 set.seed(1)
@@ -256,13 +257,18 @@ head(data.frame(vector = vec, group = fac))
 
 Given that the
 
+```{r}
+tapply(fac, vec, median)
+```
 
 ### `vapply`
+
 This functional works just like `sapply` in that it returns a vector, but it requires that the type of the return value is specified by the programmer. This function is not used much in data analysis, but is safer to use inside functions are defined. This is to prevent unexpected results that can occur with the use of other functions.
 
 ```{r}
 vapply(as.data.frame(x), median, numeric(1), na.rm = TRUE)
 ```
+
 For the function `median` when applied to the data frame is expected to return a numeric vector or length 1. The argument `FUN.VALUE` is where we set the expected return value, which has to be correct and exact, otherwise the function will fail. If we try to set the return value with the wrong type or size, e.g. with
 
 ```{r}
@@ -274,12 +280,14 @@ we have an error
 ```{r, error=TRUE}
 vapply(as.data.frame(x), median, numeric(2), na.rm = TRUE)
 ```
+
 One way to use this function is to provide a sample function value, which will have the same effect. This is useful when programming, when you don't have to know the exact type or size before hand, but can determine it based on the state of the function at that given time.
 
 ```{r}
 df <- as.data.frame(x)
 vapply(df, is.na, logical(nrow(df)))  # we obtain the size from the data
 ```
+
 We could even go a step further to name the return value
 
 ```{r}
@@ -289,8 +297,9 @@ named <- structure(logical(height), names = babies)
 y <-vapply(df, is.na, named)
 head(y, 20)
 ```
- 
+
 ### `mapply`
+
 It is possible to map a function to more than one vector at a time and that is the work of `mapply`. For instance, `fac` and `vec` mentioned earlier can be pasted together by applying the `paste` function to both vectors using `mapply`.
 
 First, we try it out with only single elements
@@ -306,19 +315,20 @@ Now, we apply this function to both vectors, `mapply` makes it possible for the 
 ```{r}
 mapply(paste0, fac, vec, USE.NAMES = FALSE)
 ```
-Note that for a function like `mapply` to work correctly, the 
+
+Note that for a function like `mapply` to work correctly, the
 
 **Caveat**: This is just an example to demonstrate how to use `mapply`. In reality, `paste0` is vectorized and thus it is easier to carry out the same operation viz
 
 ```{r}
 paste0(fac, vec)
 ```
+
 `mapply` is well suited for use with more complex data structures and with user-defined functions.
 
 ```{r}
-
+?Map
 ```
-
 
 <!-- ## Higher-Order Functionals -->
 
@@ -327,7 +337,6 @@ paste0(fac, vec)
 <!-- ### Filtering -->
 
 <!-- ### Search -->
-
 
 ## The 'purrr' package
 
@@ -338,9 +347,9 @@ library(purrr)
 map(df, median, na.rm = TRUE)
 ```
 
-Now, there are variants of `map` that will allow us to both simplify the result and specify the type of output we want. 
+Now, there are variants of `map` that will allow us to both simplify the result and specify the type of output we want.
 
-|  Function |  Value    |
+| Function  | Value     |
 |-----------|-----------|
 | `map_chr` | character |
 | `map_dbl` | double    |
@@ -353,7 +362,6 @@ map_dbl(df, median, na.rm = TRUE)
 
 There are other functions that enable us to return data frames, combining the elements by row or by column (`map_dfr` and `map_dfc`, respectively)
 
-
 ```{r}
 result <- map_dfc(df, is.na)
 is.data.frame(result)
@@ -363,9 +371,10 @@ result
 There are many more possibilities with the purrr package - for additional information see [Chapter 21 of R for Data Science](https://r4ds.had.co.nz/iteration.html)
 
 ## To Loop or Not To Loop?
-When reasoning about how to iterate over one or more data structures, the option of using loops remains. The rule of thumb is to revert to loops if working with functionals is too complicated. 
 
-One of the times when using a loop might be preferable is when trying to modify an object **in place** e.g. changing names of a data frame where we are assigning new values with `<-`. 
+When reasoning about how to iterate over one or more data structures, the option of using loops remains. The rule of thumb is to revert to loops if working with functionals is too complicated.
+
+One of the times when using a loop might be preferable is when trying to modify an object **in place** e.g. changing names of a data frame where we are assigning new values with `<-`.
 
 ```{r}
 # Create a data frame and check its names
