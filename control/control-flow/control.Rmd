@@ -6,7 +6,7 @@ output: ioslides_presentation
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Control flow
@@ -36,6 +36,31 @@ if (x > y) {
 
 ---
 
+```{r}
+x <- '8'
+
+if(x < 5) {
+  "yes" 
+  } else {
+    "no"
+  }
+```
+
+---
+
+```{r}
+if (is.integer(x)) {
+  "Integer"
+} else if (is.double(x)) {
+  "Double"
+} else if (is.character(x)) {
+  "String"
+} else {
+  "What the heck are you?"
+}
+```
+
+
 ## Loops
 
 ![](www/img/loop.webp)
@@ -43,6 +68,83 @@ if (x > y) {
 Loops allow us to run a code block over and over again.
 
 For a simple explanation of loops, read **[this article](https://adventureswithr.wordpress.com/2020/08/11/r-loops/)**.
+
+##  `repeat`
+
+```{r}
+# write repeat loop that prints all the even numbers from 2-10
+# via incrementing the variable, i <- 0
+i <- 0
+repeat{
+  i <- i + 2
+  print(i)
+  if(i >= 10)
+    break
+}
+```
+
+---
+
+```{r}
+# 2..Using the following variables
+msg <- c("Hello")
+i <- 1
+
+# write a repeat{} loop that breaks of the incrementation of "i" after
+# 5 loops, and prings "msg" at every increment.
+repeat{
+  i <- i + 1
+  print(msg)
+  if (i >= 6)
+    break
+}
+```
+
+
+
+## `while`
+
+
+```{r}
+# 3. Wwith i <- 1, write a while() loop that prints the odd numbers
+# from 1 through 7
+i <- 1
+while (i <= 7) {
+  if ((i %% 2) != 0)
+    print(i)
+  i <- i + 1
+}
+```
+
+---
+
+```{r}
+# 4. Using the following variable:
+msg <- c("Hello")
+i <- 1
+# write a while() loop that increments the variabe "i" 6 times and prints "msg"
+# at every iteration
+while (i < 7) {
+  i <- i + 1
+  print(msg)
+}
+```
+
+## `for`
+
+```{r}
+# 5. Print the first four numbers of this sequence
+x <- c(7, 4, 3, 8, 9, 25)
+for (i in 1:4)
+  print(x[i])
+
+# 6. write a for() loop that prints all the letters in
+y <- c("q", "w", "e", "r", "z", "c")
+for (i in 1:length(y))
+  print(y[i])
+
+```
+
 
 ## Read data from a file
 _Task: Read a table from a CSV file called **mockdata.csv**_.
@@ -60,3 +162,4 @@ mydata <- read.csv("mockdata.csv")
 mydata
 ```
 
+Use a loop to check the types of the columns
