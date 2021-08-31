@@ -3,7 +3,7 @@ title: "Strings in R"
 output: html_document
 ---
 
-# Strings
+# Strings: What They Are
 
 Strings, simply put, are a sequence of characters. The internal representation of these character are subject to what is known as 'encoding' -- one of the common encoding systems used is theAmerican Standard Code for Information Interchange (ASCII) .
 
