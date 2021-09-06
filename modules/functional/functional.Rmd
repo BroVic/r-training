@@ -85,7 +85,7 @@ R characteristically has what we know as *first-class functions* such that they 
 
 -   Bound to names
 -   Passed as arguments
--   Combined/Collected in containers i.e. lists
+-   Combined/collected in containers i.e. lists
 -   Returned from functions i.e. factories
 
 In R, **functions are objects**! The function `function()` is actually a **constructor** for a type of function object known as a closure.
@@ -226,7 +226,7 @@ But if we turn it into a data frame, it can be done.
 lapply(as.data.frame(nums), median, na.rm = TRUE)
 ```
 
-We have a similar result to `apply` except that the elements are in a list. To change this to a vector, you can use the function `unlist`. Note that once we converted the matrix into a data frame, each column was taken as an element and the function `median` was applied to it. The `names` of the list confirm this.
+We have a similar result to `apply` except that the elements are in a list. To change this to a vector, you can use the function `unlist`. Note that once we converted the matrix into a data frame, each column was taken as an element and the function `median` was applied to it. The `names` of the list confirms this.
 
 ### `sapply`
 
@@ -328,7 +328,7 @@ paste0(fac, vec)
 `mapply` is well suited for use with more complex data structures and with user-defined functions.
 
 ```{r}
-
+?Map
 ```
 
 ## Higher-Order Functionals
@@ -338,10 +338,6 @@ Map-Reduce
 Filtering
 
 Search
-
-```{r}
-?Map
-```
 
 ## The 'purrr' package
 
