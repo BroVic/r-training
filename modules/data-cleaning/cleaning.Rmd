@@ -1,0 +1,126 @@
+---
+title: "Data Cleaning"
+author: ""
+output: html_document
+# runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+Data cleaning takes up most of the time required for data analysis, and although experts have outlined some steps to enable structured data cleaning, every dataset is a different beast. Data cleaning can be very painful, but with lots of practice and with good tools, the experience can be quite fulfilling.
+
+```{r, echo=FALSE, eval=FALSE}
+actionLink("beast", "**Image is not for the faint-hearted. Viewer discretion is advised**")
+tryCatch({
+renderImage(
+  if (input$beast)
+    list(src = "img/1624178765357.jpg")
+, deleteFile = FALSE)}, error = function(e) "")
+```
+
+
+In this introductory lesson, we are going to deliberately stick to the basic R installation so that we can focus on the fundamentals. Using any of the great packages out there e.g. **dplyr**, **tidyr**, **editrules**, etc. is fine, but each has it's own learning curve. 
+
+# Phases of data cleaning
+During data cleaning, there are a broad set of actions that should be taken that involve ensuring that raw data are appropriate to the domain as well as consistent and suited for analytics within R. 
+
+## Technical fitness and correctness
+
+This involves ensuring that the data, after being imported, conform to the expected types. For rectangular data this implies that the
+
+### Reading data into R
+Sometimes, how we read data into R can improve or worsen the experience of working with such data. By and large, functions for importing data can receive arguments that fine-tune the data at source before they are ever brought into an R session.
+
+Before jumping into the data, it is always a good idea to look at any documentation that accompanies the data. Some datasets come with metadata (e.g. data dictionaries) that specify the expected types for the variables, among other parameters.
+
+> Good practice: Start data cleaning by inspecting the accompanying documentation developed by the owners (if there are any)
+
+Also the function that is used to import the data should be studied for possible parameters that can fine-tune the process. For instance the function `read.table` (and its siblings `read.csv`, `read.fwf`, ...) have parameters like `na.strings` (determine what strings in the original data can be read as `NA`) and `stringsAsFactors` (should strings be converted into factors on importation).
+
+### Type conversion
+
+We look at the typing of the data and if this is not appropriate to the kind of data, we coerce the data e.g. converting sting digits like `"23"` to numerical data with `as.numeric` or `as.integer`.
+
+#### Working with dates
+
+Quite often we deal with dates. How these are imported into R varies, but we need to ensure that they are properly represented. For that we have "date" types in R, which are special custom objects that are used to define dates and/or times.
+
+The first thing to note is that the accepted format for dates in modern computer languages (according to [**ISO 8601**](https://en.wikipedia.org/wiki/ISO_8601)) is **YYYY-MM-DD** e.g. the date `r sub("^\\s", "", format(Sys.Date(), "%e %B, %Y"))` is represented as `r Sys.Date()`.
+
+The easiest one to work with is the `Date` object and it is created with the function `as.Date`. Now, dates are fundamentally built on either a *date string* or a number that represents the number of days before/after an *epoch* - for the R `Date` class, the epoch is 1st January, 1970 (following the [UNIX](https://en.wikipedia.org/wiki/Unix) standard). So, for a date string `"4/07/2021"`, the date object is created like this
+
+```{r}
+dt <- as.Date("2021-07-04")
+typeof(dt)
+class(dt)
+```
+
+It can be seen that internally, the date's base type is `double` i.e. a number, while its class is called `Date`. When creating a `Date` object from a date string that does not follow the ISO convention, then we use the `format` argument to specify this. (see `?strptime` for the possible formats)
+
+```{r, error=TRUE}
+dtstr <- "10/12/2020"
+as.Date(dtstr)              # Bad!
+as.Date(dtstr, "%d/%m/%Y")  # Good! (Nigeria/UK)
+as.Date(dtstr, "%m/%d/%Y")  # Good! (U.S.)
+
+as.Date("5 February, 1976", "%e %B, %Y")
+
+# Leap year compliant
+as.Date("2021-02-28")
+as.Date("2021-02-29")       
+as.Date("2020-02-29")
+```
+
+### String manipulation
+
+R's facilities for creating, checking, merging, splitting strings (including the use of regular expressions) are essential for data cleaning that involves any kind of textual data. This is beyond the scope of this topic but will be encountered in the exercises.
+
+## Exercise 1
+
+1.  Convert the following strings into `Date` objects:
+
+*  "27th of April, 1954"
+*  "13/02/14", where the _14_ represents the year 1914.
+
+2. Use the function `readLines` to import the data in the file `example.txt`. Discuss among yourselves how you would go about working with the data.
+
+## Data consistency
+
+There are 3 main types of data consistency to consider:
+
+1.  In-record consistency
+2.  Cross-record consistency
+3.  Cross-dataset consistency
+
+We will not go into a detailed discussion on this for now. However, the focus usually should be on things like
+
+* removal of unwanted variables, corrupt data
+* detecting obvious errors in imputation
+* identifying outliers
+* finding missing values
+* effecting corrections
+
+### Localization versus internationalization
+
+The `locale` on the computer/installation has a role to play how data are interpreted. Also there are some data can only be cleaned up on the basis of locally relevant knowledge. A good example is Nigeria mobile phone numbers - they usually start with a leading '0' followed by a '7', '8' or '9' and are 11 digits long. We can therefore use regular expressions to parse these numbers.
+
+Some countries use different symbols to denote mantissa values for real numbers e.g. in Germany they use the comma and thus `r rpi <- round(pi, 5)` is written as `r sub("\\.", ",", as.character(rpi))`
+
+## Exercise 2
+Download the data file *people.csv* and clean it up.
+
+**Note**:
+
+* Document your steps in an R script
+* Check for the types and change where necessary
+* Check for inconsistencies and fix where possible.
+* Use R comments liberally to explain what you've found and what you're doing.
+
+# Further reading
+
+```{r, echo=FALSE, results='asis'}
+bibentry("TechReport", title = "An introduction to data cleaning with R", year = "2013", institution = "Statistics Netherlands", address = "Henri Faasdreef 312, 2492 JP The Hague", number = "2013/3", author = c(person("Edwin", "de Jonge"), person("Mark", "van der Loo")))
+```
