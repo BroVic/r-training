@@ -1,8 +1,9 @@
 ---
 title: "Data Cleaning"
-author: ""
-output: html_document
-# runtime: shiny
+author: ''
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
