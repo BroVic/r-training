@@ -32,7 +32,22 @@ dat <- read.csv(filename)
 
 # 8. After fixing 'Normal' convert it and the other columns related to it to
 # type `logical`. Replace the 1s with `TRUE` and the 0s with `FALSE`. 
-# (Suggested function to use: `ifelse`)
 ### <INSERT CODE FROM HERE> ###
 
 
+## 9. Inspect your data frame in its current state
+### <INSERT CODE FROM HERE> ###
+
+
+## Discussion:
+## 10. Look at some of the values in the 'name' column:
+### <INSERT CODE FROM HERE> ###
+
+## a. What do you notice? 
+## b. Can youexplain why the values are like that?
+
+## 11. Print out the values in a single cell of the 'ingredients' column.
+### <INSERT CODE FROM HERE> ###
+
+## The 'ingredients' column has so many values combined together for each
+## observation. How would you go about working with such data for easy analysis?
