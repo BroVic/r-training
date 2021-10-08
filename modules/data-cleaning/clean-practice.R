@@ -3,7 +3,7 @@
 
 # 1. Import the datat from the 'data' directory using the object 'filename'.
 # Name your object 'dat'
-filename <- "<path/to/file>"
+filename <-  # "<path/to/file>"
 dat <- read.csv(filename)
 
 # 2. Inspect your data. What are the dimensions of the data frame?
