@@ -1,0 +1,47 @@
+---
+title: "Training on the naijR Package"
+author: "DevSolutions Ltd."
+date: "31/01/2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(naijR)
+```
+
+
+Introduction
+
+This inaugural training was held on `r format(Sys.Date(), "%A %d %B, %Y")`. It was an online event hosted via Zoom.
+
+The package naijR was developed to provide much-needed help to researchers working with data related to Nigeria. The package is hosted on CRAN. To show the map of Nigeria, use the function map_ng(). The package website is found here.
+
+This is a drawing of the simple map of Nigeria showing its constituent States.
+
+```{r fct-map, warning=FALSE, fig.cap="Map of the FCT"}
+map_ng(show.text = TRUE)
+``` 
+
+To install the package, use this code:
+
+```{r, eval=FALSE}
+install.packages('naijR')
+```
+
+Main features:
+
+Innovative
+Robust
+Well tested
+Informative maps
+Helpful tools for data cleaning
+
+Testimonials
+
+"I am glad to have found this package. It has stimulated my interest in R programming as a whole".
+
+"It is a very useful addition to data science tooling as a whole".
+
+For more information, contact info@dev-solu.com.

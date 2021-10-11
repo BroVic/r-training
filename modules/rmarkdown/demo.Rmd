@@ -1,0 +1,22 @@
+---
+title: "Demo"
+author: ""
+date: "31/01/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Introduction
+## Statement
+
+This a demonstration of how R Markdown works. The value R Markdown to a data scientist **cannot** be overestimated. This a way of making our research to be reproducible, *something of very high value in our interconnected world*. **_We are going higher with these tools_**!!!
+
+```{r, echo=FALSE}
+pairs(cars)
+```
+
+This my second attempt at sharing this content.
