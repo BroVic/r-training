@@ -1,0 +1,140 @@
+---
+title: "Reproducible Data Science with R Markdown"
+author: ""
+date: "`r format(Sys.Date(), '%e %B, %Y')`"
+output:
+  ioslides_presentation: default
+  powerpoint_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Motivation
+
+--- 
+
+Data analysis reports involve data, visualisations and narratives. Imagine this scenario:
+
+- You are writing a report that also has data and results in it
+  + mathematical output
+  + tables
+  + charts
+- Your charts are beautiful. You made them in SPSS, Excel or R. You save and insert into Word.
+- You realise you made a mistake with the data. You have to remake the charts, save them and insert into Word.
+- You report is large and you have up to 30 tables. There was a mistake in the data entry that was discovered by a colleague. You now have to recreate 30 tables. 
+- Poor you!
+
+# What is R Markdown?
+
+--- 
+
+- R Markdown helps to prevent the aforementioned pain areas.
+- Data analysis in itself can be a painful, gruelling process. Why add to it?
+- Mistakes happen all the time and they are very costly in terms of time, energy and money.
+
+## Some Background
+- HTML
++ A markup language in which we have text files that have elements
++ The elements in the document are interpreted by applications called browsers.
++ The key aspect: interpreted by machine.
+
+- Markdown:
+Is also a markup language, but its name indicates that the markup is more managed.
+The key is its readability.
+
+## R
+- R is a programming language and environment for statistical computing.
+- In R Markdown, R code can be interspersed with text narrative to produce dynamic documents that respond to data driven events.
+
+# The Components of an R Markdown document
+
+---
+
+There are 3 main pieces that fit together in an R Markdown document:
+
+1. The YAML Header
+2. Embedded R Code
+3. Plain text
+
+## The YAML Header
+- YAML is a serialization language that provides easy to read-write data representations.
+- In RMD, this is mostly used to define metadata for global settings of the document.
+- For more information on YAML, visit <https://yaml.org>.
+
+## The YAML Header
+
+```yaml
+---
+title: "My Big Report"
+author: "John Doe"
+date: "2021-01-30"
+output: word_document
+---
+```
+
+## Embedded R Code (Chunks & Inline Code)
+- R Code can be used inside the document in the form of chunks and inline:
+- A code chunk is delineated with 3 backticks (```). To make it an code chunk wherein expressions can be evaluated, a language engine is defined. For R, this is written as __{r}__.
+
+```md
+```{r my-label-1, echo = FALSE}`r ''`
+x <- 42
+print(x)
+```
+```
+Code chunks can carry an optional label, as well as arguments known as **chunk options** for finer control of what we want to allow a chunk to do.
+
+## Embedded R Code
+
+R code can be evaluated right inside the body of the document i.e. among the text characters.
+
+To do this, we can use the \`r\ \` and whatever is inside those elements will be interpreted as R code and evaluated. The returned value of the expression will be rendered in the final document at that very position.
+
+For example, if `x` is the name for an object with the value *8*, \`r\ x + 2\` will be printed as **10** in the final document.
+
+## Text
+
+- Plain text characters can be written as in any other electronic document format.
+- Markup is applied by *appropriately* using particular symbolic characters.
+- When the document is compiled, the markup is interpreted in line with the chosen format.
+
+## Text
+
+There are many ways to carry out text formatting:
+
+- Headings are created with the '#' character (up to 6 levels)
+- Bold text is made by surrounding it with ** or __.
+- Italics are created by surrounding text with * or _
+
+There are many other ways to do formatting e.g. mathematical symbols (MathJax)
+
+## Writing the Document
+
+This is done easily with R Studio
+
+- Start a new file, save with the extension *.Rmd*.
+- use various menus/icons to:
+  + Create code chunks
+  + Run chunks to check output
+
+## Compiling the Document
+The process has several steps:
+
+1. Running of all code chunks and conversion to regular Markdown
+2. Conversion of Markdown to document i.e. HTML, Word, PDF using Pandoc.
+3. For PDF, LaTex is required to create and intermediate '.tex' file.
+
+## Compiling the Document
+- In R Studio, click the 'Knit' button.
+- Using R code:
+  + Useful when compiling many documents. For example, we can use a loop to create several of such documents
+  + `rmarkdown::render`
+
+<!-- ## Collaboration: Role of Version Control -->
+<!-- - To collaborate effectively, we need version control software. This is the role played by Git. -->
+<!-- - Git takes snapshots of the history of changes made in a source file. -->
+<!-- - Multiple collaborators can seamlessly make changes to a source file, especially when a good workflow is used. -->
+
+# Demo

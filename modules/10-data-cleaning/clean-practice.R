@@ -3,7 +3,7 @@
 
 # 1. Import the datat from the 'data' directory using the object 'filename'.
 # Name your object 'dat'
-filename <- "data/cosmetics_dirty.csv"
+filename <-  # "<path/to/file>"
 dat <- read.csv(filename)
 
 # 2. Inspect your data. What are the dimensions of the data frame?
@@ -74,6 +74,20 @@ for (i in c("combination", "dry", "normal", "oily", "sensitive"))
 
 ## 9. Inspect your data frame in its current state
 View(dat)
+
+## Discussion:
+## 10. Look at some of the values in the 'name' column:
+### <INSERT CODE FROM HERE> ###
+
+## a. What do you notice? 
+## b. Can youexplain why the values are like that?
+
+## 11. Print out the values in a single cell of the 'ingredients' column.
+### <INSERT CODE FROM HERE> ###
+
+## 9. Inspect your data frame in its current state
+### <INSERT CODE FROM HERE> ###
+
 
 ## Discussion:
 ## 10. Look at some of the values in the 'name' column:
