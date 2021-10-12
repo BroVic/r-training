@@ -78,26 +78,17 @@ View(dat)
 ## Discussion:
 ## 10. Look at some of the values in the 'name' column:
 ### <INSERT CODE FROM HERE> ###
+head(dat$name)
+tail(dat$name)
 
 ## a. What do you notice? 
-## b. Can youexplain why the values are like that?
+## b. Can you explain why the values are like that?
+
 
 ## 11. Print out the values in a single cell of the 'ingredients' column.
 ### <INSERT CODE FROM HERE> ###
-
-## 9. Inspect your data frame in its current state
-### <INSERT CODE FROM HERE> ###
+dat$name[1]
 
 
-## Discussion:
-## 10. Look at some of the values in the 'name' column:
-### <INSERT CODE FROM HERE> ###
-
-## a. What do you notice? 
-## b. Can youexplain why the values are like that?
-
-## 11. Print out the values in a single cell of the 'ingredients' column.
-### <INSERT CODE FROM HERE> ###
-
-## The 'ingredients' column has so many values combined together for each
+## 12. The 'ingredients' column has so many values combined together for each
 ## observation. How would you go about working with such data for easy analysis?
