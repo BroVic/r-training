@@ -1,8 +1,10 @@
 ---
 title: "Demo"
-author: ""
-date: "31/01/2021"
-output: html_document
+author: ''
+date: "31/10/2021"
+output:
+  word_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -19,4 +21,14 @@ This a demonstration of how R Markdown works. The value R Markdown to a data sci
 pairs(cars)
 ```
 
-This my second attempt at sharing this content.
+This is my second attempt at sharing this content.
+
+```{r second-chunk}
+df <- data.frame(x = sample(1:5, 30, replace = T), y = sample(letters[1:5], 30, replace = TRUE))
+df
+nrow(df)
+```
+
+
+In our data frame `df` has `r nrow(df)` rows and `r ncol(df)` columns. 
+
