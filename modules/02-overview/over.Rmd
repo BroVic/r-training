@@ -1,7 +1,6 @@
 ---
 title: "Overview of Basic Data Analysis with R"
 author: "Victor Ordu"
-date: "08/06/2021"
 output: ioslides_presentation
 ---
 
@@ -10,27 +9,29 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Recap
->- Invocation and the Read-Eval-Print Loop
->- Constants
->- Parsing of R code
->- Strings and names
->- Functions and operators
->- Comments
->- Working directory
->- Workspace
->- Search path
->- Documentation
+- Invocation and the Read-Eval-Print Loop
+- Constants
+- Parsing of R code
+- Strings and names
+- Functions and operators
+- Comments
+- Working directory
+- Workspace
+- Search path
+- Documentation
 
 ## 3rd-Party Libraries (Packages)
->- Compilation of functions and/or data
->- Made to ease specific (repetitive) tasks
->- Some are general-purpose, others domain-specific
->- Currently, 17678 packages on CRAN
->- Other locations - Bioconductor, GitHub
->- See [CRAN Task Views](https://cran.r-project.org/views)
+- Compilation of functions and/or data
+- Made to ease specific (repetitive) tasks
+- Some are general-purpose, others domain-specific
+- Currently, 17678 packages on CRAN
+- Other locations - Bioconductor, GitHub
+- See [CRAN Task Views](https://cran.r-project.org/views)
 
 ---
+
 <center>
+
 ![](img/taskview.png)
 </center>
 
@@ -38,23 +39,23 @@ knitr::opts_chunk$set(echo = TRUE)
 
 A hypothetical package called **pkg** has a function, `pause()`:
 
->- To install from CRAN - `install.packages("pkg")`
->- To learn about the package - `help(package = "pkg")`
->- To use `pkg` in R session - `library(pkg)` (or `require`)
->- Function `pause()` can be used one-off - `pkg::pause()`
->- To detach `pkg` from search path - `detach("package:pkg")`
->- To uninstall `pkg` use `remove.packages("pkg")`
+- To install from CRAN - `install.packages("pkg")`
+- To learn about the package - `help(package = "pkg")`
+- To use `pkg` in R session - `library(pkg)` (or `require`)
+- Function `pause()` can be used one-off - `pkg::pause()`
+- To detach `pkg` from search path - `detach("package:pkg")`
+- To uninstall `pkg` use `remove.packages("pkg")`
 
 ## Importing Data
->- Note: There are inbuilt datasets
->- Import from MS Excel using the *readxl* package
->- This object is called a data frame
->- Has observations (rows) and variables (columns)
+- Note: There are inbuilt datasets
+- Import from MS Excel using the *readxl* package
+- This object is called a data frame
+- Has observations (rows) and variables (columns)
 
 ---
 
 ```{r, message=FALSE}
-dat <- readxl::read_excel("../data/whostat2005_coverage.xls")
+dat <- readxl::read_excel("whostat2005_coverage.xls")
 
 # Alternatively:
 # library(readxl)
@@ -75,10 +76,10 @@ dat <- readxl::read_excel("../data/whostat2005_coverage.xls")
 ![](img/View.png){width="100%"}
 
 ## Data exploration
->- `dim()`
->- `head()` or `tail()`
->- `colnames()`
->- `str()`
+- `dim()`
+- `head()` or `tail()`
+- `colnames()`
+- `str()`
 
 ---
 
@@ -164,12 +165,12 @@ identical(anc, anc3)
 
 ## Data Cleaning
 
->- Time-consuming
->- Development of elegant constructs
->- R scripts allow documentation of cleaning data steps
->- Scripting: quality assurance, knowledge sharing and correction/reversal where necessary
->- Scripting  ->  package development  ->  Automation
->- 3rd party packages available (limited value)
+- Time-consuming
+- Development of elegant constructs
+- R scripts allow documentation of cleaning data steps
+- Scripting: quality assurance, knowledge sharing and correction/reversal where necessary
+- Scripting  ->  package development  ->  Automation
+- 3rd party packages available (limited value)
 
 # Attempt to improve data import (DEMO)
 
@@ -179,17 +180,17 @@ identical(anc, anc3)
 - For numerical data - `fivenum()`
 
 ## Visualization
->- Outstanding graphics capabilities
->- Base R, other packages like **lattice** and **ggplot2**
->- Run `demo("graphics")` and `demo("image")`
+- Outstanding graphics capabilities
+- Base R, other packages like **lattice** and **ggplot2**
+- Run `demo("graphics")` and `demo("image")`
 
 
 ## Concluding your Session
->- You will be prompted to save your session.
->- 99% of the time DON'T do this!
->- Rather than saving objects, save the scripts that created them.
->- You can save individual objects with the function `saveRDS()`
->- To recall the object, used `readRDS()`.
+- You will be prompted to save your session.
+- 99% of the time DON'T do this!
+- Rather than saving objects, save the scripts that created them.
+- You can save individual objects with the function `saveRDS()`
+- To recall the object, used `readRDS()`.
 
 ---
 
@@ -215,10 +216,7 @@ file.remove(myfile)
 - Quick R - <https://www.statmethods.net/>
 
 ## TO DO
-1. Install R, R Studio and Rtools.
-2. Open accounts individually with <https://github.com>.
-3. Open corporate account for HSCL (Coordinator)
-4. Pick any old Excel file and import it into R. Give it the name `mydat`:
+- Pick any old Excel file and import it into R. Give it the name `mydat`:
   - You may have to install the **readxl** package.
   - What is the result of `nrow(mydat)`?
   - what is the result of `ncol(mydat)`?
