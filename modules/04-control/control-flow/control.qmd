@@ -2,15 +2,34 @@
 title: "Control Flow in R"
 author: "Victor Ordu"
 date: ""
-output: ioslides_presentation
+format: revealjs
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Control flow
-### Conditionals
+## Recap of the Use of Boolean Logic
+Simply put, Boolean logic refers to binary values that can are akin to a switch:
+
+- OFF/ON
+- 0/1
+- yes/no
+
+In R, the inbuilt options for Boolean logic are `TRUE/FALSE`.
+
+## Logic Table
+This is how combination of Boolean values evaluate with `&&` (`AND`), `||` (`OR`), and `xor`.
+
+| \( P \) | \( Q \) | \( P AND Q \) | \( P OR Q \) | \( \neg P \) |
+|---------|---------|---------------|------------|----------------|
+| T       | T       | T             | T          | F              |
+| T       | F       | F             | T          | F              |
+| F       | T       | F             | T          | T              |
+| F       | F       | F             | F          | T              |
+
+
+## Conditionals
 
 - `if`, `else if`, `else`: These can be used to instruct a particular part of the code to be run or not run.
 
@@ -69,6 +88,35 @@ Loops allow us to run a code block over and over again.
 
 For a simple explanation of loops, read **[this article](https://adventureswithr.wordpress.com/2020/08/11/r-loops/)**.
 
+## Motivation
+Imagine having to write code that has the same statement repeated:
+
+```{r loops-motivate}
+#| eval: false
+x <- 1L
+
+x <- x + 1
+x <- x + 1
+x <- x + 1
+# and on and on...
+```
+
+---
+
+How about a construct that will allow us to just write the statement
+
+```{r loop-pseudo}
+#| eval: false
+
+x <- 1L
+
+# Repeat this statement 3 times but write it once
+x <- x + 1  # x 3
+x
+```
+
+---
+
 ##  `repeat`
 
 ```{r}
@@ -100,15 +148,13 @@ repeat{
 }
 ```
 
-
-
 ## `while`
-
 
 ```{r}
 # 3. Wwith i <- 1, write a while() loop that prints the odd numbers
 # from 1 through 7
 i <- 1
+
 while (i <= 7) {
   if ((i %% 2) != 0)
     print(i)
@@ -122,6 +168,7 @@ while (i <= 7) {
 # 4. Using the following variable:
 msg <- c("Hello")
 i <- 1
+
 # write a while() loop that increments the variabe "i" 6 times and prints "msg"
 # at every iteration
 while (i < 7) {
@@ -135,14 +182,15 @@ while (i < 7) {
 ```{r}
 # 5. Print the first four numbers of this sequence
 x <- c(7, 4, 3, 8, 9, 25)
+
 for (i in 1:4)
   print(x[i])
 
 # 6. write a for() loop that prints all the letters in
 y <- c("q", "w", "e", "r", "z", "c")
+
 for (i in 1:length(y))
   print(y[i])
-
 ```
 
 
@@ -162,4 +210,4 @@ mydata <- read.csv("mockdata.csv")
 mydata
 ```
 
-Use a loop to check the types of the columns
+**Assignment**: Use a loop to check the types of the columns.
