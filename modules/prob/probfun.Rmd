@@ -1,0 +1,46 @@
+---
+title: "Probability Distributions"
+output:
+  ioslides_presentation: default
+  beamer_presentation:
+    theme: metropolis
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Probabiility Functions
+```{r}
+nomnoml::nomnoml(
+  "[Probability Mass Function] discrete variables ->[Cumulative Probability Function]
+   [Probability Density Function] continuous variables ->[Cumulative Probability Function]"
+)
+
+```
+
+## R Paradigm for Probability Distributions
+Some of the key distributions:
+
+>- binomial
+>- Poisson
+>- hypergeometric
+>- exponential
+>- normal
+>- $\chi^2$
+>- Student's t
+
+## R Paradigm for Probability Distributions
+- Family of functions; members identified by prefix
+- 4 common prefixes
+  + **d*** - density (or mass) function
+  + **p*** - cumulative probability function
+  + **q*** - inverse probability i.e. quantile
+  + **r*** - random value generators
+
+## Example: Binomial Distribution
+```{r, eval = Sys.info()["nodename"] == "SA-DG"}
+shiny::shinyAppDir("~/Documents/5-Personal/Study/datascience/R/r-sandbox/stats/binom/shiny-binomial")
+```
+

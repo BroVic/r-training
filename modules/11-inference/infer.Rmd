@@ -1,0 +1,41 @@
+---
+title: "Inferential Statistics"
+output: ioslides_presentation
+date: "`r format(Sys.Date(), '%e %B, %Y')`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Explore/describe the data
+
+- Overview of the data
+- Ascertain the levels of measurement of the variables
+- LoM determines the type of statistical test
+
+## Visualization
+- A picture is worth more than a thousand words.
+- Helps a lot with deciding the right approach for running tests
+
+## Hypothesis testing
+- Null hypothesis
+- Alternative hypothesis
+
+## Categorical variables
+- In summarising categorical data, we obtain **counts** for the different levels of the variable
+- Usually summarised in a table.
+
+## Common tests
+- Proportions test
+- Chi-squared ($\chi^2$) statistic
+- Fisher Exact Test
+
+## Categorical vs. Quantitative variables
+- Measures used: Expectation and variability => mean and variance
+- Central limit theorem plays a crucial role since the mean of the sampling distributions are always normally distributed once the sample size $>=$ 30.
+
+## Quantitative vs Quantitative variables
+- Covariance
+- Correlation
+- Smoothing
